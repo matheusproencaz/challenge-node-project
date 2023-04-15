@@ -1,0 +1,15 @@
+version: "3"
+services:
+  database:
+    image: postgres:10.17
+    env_file:
+      - "./database.env"
+    environment:
+     - "POSTGRES_DB=node_challenge" 
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgres
+
+volumes:
+  pg-data:
