@@ -1,9 +1,9 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
-import { Company } from "../../entities/Company";
 import { Car } from "../../entities/Car";
 import { Bike } from "../../entities/Bike";
+import { Company } from "../../entities/Company";
 
-export class populateDatabase1681593683444 implements MigrationInterface {
+export class populateDatabase1681595932280 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         const car = await queryRunner.manager.save(
