@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { CompanyAlreadyExistsError } from "./CompanyAlreadyExistsError";
 import { ValidationError } from "./ValidationError";
+import { CompanyDoesNotExistsError } from "./CompanyDoesNotExists";
+import { BaseAppError } from "./BaseAppError";
 
 
 const ErrorHandler = (err, req: Request, res: Response, next: NextFunction) => {
@@ -9,12 +11,11 @@ const ErrorHandler = (err, req: Request, res: Response, next: NextFunction) => {
     let errStatus = err.statusCode || 500;
     const errMsg = err.message || 'Something went wrong';
 
-    if (err instanceof CompanyAlreadyExistsError) {
+    if (err instanceof BaseAppError) {
          errStatus = 400;
     }
 
     if (err instanceof ValidationError) {
-        errStatus = 403;
         res.status(errStatus).json({
             success: false,
             status: errStatus,

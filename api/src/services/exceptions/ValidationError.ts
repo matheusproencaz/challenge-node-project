@@ -1,4 +1,6 @@
-export class ValidationError extends Error {
+import { BaseAppError } from "./BaseAppError";
+
+export class ValidationError extends BaseAppError {
     validationErrors: string[];
 
     constructor(validationErrors: string[]) {

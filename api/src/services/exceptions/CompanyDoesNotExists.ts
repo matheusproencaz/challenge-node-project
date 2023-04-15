@@ -1,9 +1,9 @@
 import { BaseAppError } from "./BaseAppError";
 
-export class CompanyAlreadyExistsError extends BaseAppError {
+export class CompanyDoesNotExistsError extends BaseAppError {
     
     constructor() {
-        super('This Company Already Exists!');
+        super('This Company does not exists!');
 
         Object.setPrototypeOf(this, new.target.prototype);
         this.name = Error.name;

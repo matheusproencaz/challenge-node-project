@@ -1,22 +1,19 @@
 import { NextFunction, Request, Response } from "express";
 import { ValidationError } from "../services/exceptions/ValidationError";
 import CompanyService from "../services/CompanyService";
-// import { autoInjectable } from "tsyringe";
+import { getRepository } from "typeorm";
+import { Company } from "../entities/Company";
 
-// @autoInjectable()
+
 export default class CompanyController {
-    // service: CompanyService;
-
-    // constructor(service: CompanyService) {
-    //     this.service = service;
-    // }
 
     async createCompany(req: Request, res: Response, next: NextFunction) {
         try {
-            const service = new CompanyService();
-            const company: CreateCompanyRequest = req.body;
+            const repository = getRepository(Company);
+            const service = new CompanyService(repository);
 
-            validateCompanyRequest(company);
+            validateCompanyRequest(req.body);
+            const company: CreateCompanyRequest = req.body;
             
             const result = await service.createCompany(company);
     
@@ -28,9 +25,56 @@ export default class CompanyController {
 
     async getAllCompanies(_, res: Response, next: NextFunction) {
         try {
-            const service = new CompanyService();
-            const companies = await service.getAllCompanies();
-            return res.json(companies);
+            const repository = getRepository(Company);
+            const service = new CompanyService(repository);
+
+            const result = await service.getAllCompanies();
+            return res.json(result);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async getCompanyById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const repository = getRepository(Company);
+            const service = new CompanyService(repository);
+            
+            const { id } = req.params;
+
+            const result = await service.findCompanyById(id);
+            return res.json(result);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async deleteCompanyById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const repository = getRepository(Company);
+            const service = new CompanyService(repository);
+            
+            const { id } = req.params;
+            await service.deleteCompanyById(id);
+
+            return res.status(204).end();
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async updateCompany(req: Request, res: Response, next: NextFunction) {
+        try {
+            const repository = getRepository(Company);
+            const service = new CompanyService(repository);
+
+            const { id } = req.params;
+            // const { name, cnpj, address, phone, bikeParkingAmount, carParkingAmount }: CreateCompanyRequest = req.body;
+            const companyRequest: CreateCompanyRequest = req.body;
+
+            const result = await service.updateCompanyById(id, companyRequest);
+
+            return res.json(result);
         } catch (err) {
             next(err);
         }
@@ -55,7 +99,6 @@ function validateCompanyRequest({
     if(!bikeParkingAmount) validationErrors.push('BikeParkingAmount is null!');
     if(!carParkingAmount) validationErrors.push('CarParkingAmount is null!');
     
-    console.log('Passou tudo!');
     if(validationErrors.length > 0) {
         throw new ValidationError(validationErrors);
     }
