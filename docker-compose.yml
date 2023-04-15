@@ -10,6 +10,20 @@ services:
       - "5432:5432"
     volumes:
       - pg-data:/var/lib/postgres
+  app:
+    build: ./api/.
+    image: app
+    container_name: app
+    ports: 
+      - "8080:8080"
+    depends_on:
+      - database
+      - migration
+  migration:
+    image: app
+    command: yarn typeorm migration:run
+    depends_on:
+      - database
 
 volumes:
   pg-data:
