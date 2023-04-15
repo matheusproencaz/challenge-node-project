@@ -1,9 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { CompanyAlreadyExistsError } from "./CompanyAlreadyExistsError";
 import { ValidationError } from "./ValidationError";
-import { CompanyDoesNotExistsError } from "./CompanyDoesNotExists";
 import { BaseAppError } from "./BaseAppError";
-
 
 const ErrorHandler = (err, req: Request, res: Response, next: NextFunction) => {
     console.log("Middleware Error Handling");
@@ -28,6 +25,7 @@ const ErrorHandler = (err, req: Request, res: Response, next: NextFunction) => {
         success: false,
         status: errStatus,
         message: errMsg,
+        stack: process.env.NODE_ENV === 'development'
     });
 };
 

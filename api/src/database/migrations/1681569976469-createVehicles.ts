@@ -1,45 +1,37 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class createCompanies1681515201538 implements MigrationInterface {
+export class createVehicles1681569976469 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "companies",
+                name: "vehicles",
                 columns: [
                     {
                         name: "id",
                         type: "uuid",
-                        isPrimary: true
+                        isPrimary: true 
                     },
                     {
-                        name: "name",
-                        type: "varchar",
-                    },
-                    {
-                        name: "cnpj",
+                        name: "plate",
                         type: "varchar",
                         isUnique: true
                     },
                     {
-                        name: "address",
+                        name: "brand",
                         type: "varchar",
                     },
                     {
-                        name: "phone",
+                        name: "color",
                         type: "varchar",
                     },
                     {
-                        name: "bikeParkingAmount",
-                        type: "numeric",
-                    },
-                    {
-                        name: "carParkingAmount",
-                        type: "numeric",
+                        name: "type",
+                        type: "varchar",
                     },
                     // {
-                    //     name: 'vehicles',
-                    //     type: 'uuid'
+                    //     name: "company_id",
+                    //     type: "uuid"
                     // },
                     {
                         name: "created_at",
@@ -49,9 +41,9 @@ export class createCompanies1681515201538 implements MigrationInterface {
                 ],
                 // foreignKeys: [
                 //     {
-                //         name: "fk_company_vehicles",
-                //         columnNames: ["vehicles_id"],
-                //         referencedTableName: "vehicles",
+                //         name: "fk_vehicles_company",
+                //         columnNames: ["company_id"],
+                //         referencedTableName: "companies",
                 //         referencedColumnNames: ["id"]
                 //     }
                 // ]
@@ -60,7 +52,6 @@ export class createCompanies1681515201538 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("companies");
+        await queryRunner.dropTable("vehicles");
     }
-
 }

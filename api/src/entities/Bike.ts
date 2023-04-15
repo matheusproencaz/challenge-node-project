@@ -1,10 +1,5 @@
-import { Entity } from "typeorm";
-import { Vehicle } from "./Vehicle";
-import { VehiclesTypes } from "./enums/vehiclesType";
+import { ChildEntity } from "typeorm";
+import { Vehicle, VehiclesTypes } from "./Vehicle";
 
-@Entity("Bikes")
-export class Bike extends Vehicle {
-    super(brand: string, color: string, plate: string) {
-        this.type = VehiclesTypes.BIKE;
-    }
-}
+@ChildEntity(VehiclesTypes.BIKE)
+export class Bike extends Vehicle { }

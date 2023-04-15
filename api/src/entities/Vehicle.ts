@@ -1,7 +1,14 @@
-import { Column, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, TableInheritance } from "typeorm";
 import { v4 as uuid } from 'uuid';
-import { VehiclesTypes } from "./enums/vehiclesType";
+import { Company } from "./Company";
 
+export enum VehiclesTypes {
+    BIKE = "bike",
+    CAR = "car",
+}
+
+@Entity('vehicles')
+@TableInheritance({ column: 'type' })
 export abstract class Vehicle {
 
     @PrimaryColumn()
@@ -18,16 +25,24 @@ export abstract class Vehicle {
 
     @Column({
         type: 'enum',
-        enum: VehiclesTypes
+        enum: VehiclesTypes,
+        nullable: false
     })
     type: VehiclesTypes;
 
-    constructor(brand: string, color: string, plate: string){
+    // @ManyToOne(() => Company, company => company.vehicles)
+    // @JoinColumn({ 
+    //     name: 'vehicles_id'
+    // })
+    // company?: Company;
+
+    constructor(){
         if(!this.id) {
             this.id = uuid();
         }
-        this.brand = brand;
-        this.color = color;
-        this.plate = plate;
     }
+
+    // addCompany(company: Company) {
+    //     this.company = company;
+    // }
 }

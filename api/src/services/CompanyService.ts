@@ -1,4 +1,4 @@
-import { Repository, getRepository } from "typeorm";
+import { Repository } from "typeorm";
 import { Company } from "../entities/Company";
 import { CompanyAlreadyExistsError } from "./exceptions/CompanyAlreadyExistsError";
 import { CompanyDoesNotExistsError } from "./exceptions/CompanyDoesNotExists";
