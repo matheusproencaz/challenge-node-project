@@ -6,6 +6,7 @@ import { CreateVehicleRequest } from "../types/CreateVehicleRequest";
 import { ValidationError } from "../services/exceptions/ValidationError";
 import { Car } from "../entities/Car";
 import { Bike } from "../entities/Bike";
+import { UpdateVehicleRequest } from "../types/UpdateVehicleRequest";
 
 
 export default class VehicleController {
@@ -72,6 +73,52 @@ export default class VehicleController {
             res.json(result);
         } catch (err) {
             next(err);
+        }
+    }
+
+    async getVehicleByID(req: Request, res: Response, next: NextFunction) {
+        try {
+            const repository = getRepository(Vehicle);
+            const service = new VehicleService(repository);
+
+            const { id } = req.params;
+
+            const result = await service.getVehicleById(id);
+
+            res.json(result);
+        } catch(err) {
+            next(err);
+        }
+    }
+
+    async deleteVehicleByID(req: Request, res: Response, next: NextFunction) {
+        try {
+            const repository = getRepository(Vehicle);
+            const service = new VehicleService(repository);
+
+            const { id } = req.params;
+
+            await service.deleteVehicleById(id);
+
+            res.status(204).end();
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async updateVehicleById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+            const updatedVehicle: UpdateVehicleRequest = req.body;
+
+            const repository = getRepository(Vehicle);
+            const service = new VehicleService(repository);
+            
+            const result = await service.updatevehicleById(id, updatedVehicle);
+            
+            res.json(result);
+        } catch (err) {
+            throw new Error(err);
         }
     }
 }

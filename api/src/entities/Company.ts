@@ -1,5 +1,8 @@
-import { Column, Entity, JoinColumn, JoinTable, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
+import { Vehicle, VehiclesTypes } from "./Vehicle";
+import { VehicleDoesNotExistsError } from "../services/exceptions/VehicleDoesNotExistsError";
+import { FullParkingSlotsError } from "../services/exceptions/FullParkingSlotsError";
 
 @Entity("companies")
 export class Company {
@@ -25,13 +28,8 @@ export class Company {
     @Column()
     carParkingAmount: number;
 
-    // @OneToMany(() => Vehicle, vehicles => vehicles.company, {
-    //     cascade: true
-    // })
-    // @JoinTable({ 
-    //     name: "company_vehicles", 
-    // })
-    // vehicles?: Vehicle[];
+    @OneToMany(() => Vehicle, (vehicles) => vehicles.company)
+    vehicles?: Vehicle[];
 
     constructor() {
         if(!this.id) {
@@ -39,10 +37,32 @@ export class Company {
         }
     }
 
-    // addVehicle(vehicle: Vehicle) {
-    //     if(this.vehicles == null) {
-    //         this.vehicles = Array<Vehicle>();
-    //     }
-    //     this.vehicles.push(vehicle);
-    // }
+    addVehicle(vehicle: Vehicle) {
+        if(!vehicle) throw new VehicleDoesNotExistsError();
+
+        if(!this.vehicles) {
+            this.vehicles = Array<Vehicle>();
+        }
+
+        if(!this.hasParkingSlots(vehicle)) {
+            throw new FullParkingSlotsError(vehicle.type);
+        }
+
+        this.vehicles.push(vehicle);
+    }
+
+
+    hasParkingSlots(vehicle: Vehicle): boolean {
+        if(vehicle.type === VehiclesTypes.BIKE){
+            const numBikes = this.vehicles.filter(bike => bike.type === VehiclesTypes.BIKE).length;
+            return this.bikeParkingAmount > numBikes;
+        }
+        
+        if(vehicle.type === VehiclesTypes.CAR){
+            const numCars = this.vehicles.filter(car => car.type === VehiclesTypes.CAR).length;
+            return this.carParkingAmount > numCars;
+        }
+        throw new Error('Invalid Vehicle Type!');
+    }
+
 }

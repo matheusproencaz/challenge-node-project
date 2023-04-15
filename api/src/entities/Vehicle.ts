@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, TableInheritance } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryColumn, TableInheritance } from "typeorm";
 import { v4 as uuid } from 'uuid';
 import { Company } from "./Company";
 
@@ -30,19 +30,12 @@ export abstract class Vehicle {
     })
     type: VehiclesTypes;
 
-    // @ManyToOne(() => Company, company => company.vehicles)
-    // @JoinColumn({ 
-    //     name: 'vehicles_id'
-    // })
-    // company?: Company;
+    @ManyToOne(() => Company, (company) => company.vehicles)
+    company?: Company;
 
     constructor(){
         if(!this.id) {
             this.id = uuid();
         }
     }
-
-    // addCompany(company: Company) {
-    //     this.company = company;
-    // }
 }

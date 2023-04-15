@@ -3,6 +3,7 @@ import { ValidationError } from "../services/exceptions/ValidationError";
 import CompanyService from "../services/CompanyService";
 import { getRepository } from "typeorm";
 import { Company } from "../entities/Company";
+import { Vehicle } from "../entities/Vehicle";
 
 
 export default class CompanyController {
@@ -73,6 +74,22 @@ export default class CompanyController {
             const companyRequest: CreateCompanyRequest = req.body;
 
             const result = await service.updateCompanyById(id, companyRequest);
+
+            return res.json(result);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async addVehicleToCompany(req: Request, res: Response, next: NextFunction) {
+        try {
+            const repository = getRepository(Company);
+            const vehicleRepository = getRepository(Vehicle);
+            const service = new CompanyService(repository, vehicleRepository);
+
+            const { idCompany, idVehicle } = req.params;
+
+            const result = await service.addVehicleToCompany(idCompany, idVehicle);
 
             return res.json(result);
         } catch (err) {

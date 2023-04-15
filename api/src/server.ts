@@ -7,7 +7,7 @@ import ErrorHandler from './services/exceptions/ErrorHandler';
 import { routes } from './routes';
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.APP_PORT;
 
 app.use(express.json());
 

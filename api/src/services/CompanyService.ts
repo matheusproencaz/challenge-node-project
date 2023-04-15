@@ -1,14 +1,12 @@
 import { Repository } from "typeorm";
 import { Company } from "../entities/Company";
 import { CompanyAlreadyExistsError } from "./exceptions/CompanyAlreadyExistsError";
-import { CompanyDoesNotExistsError } from "./exceptions/CompanyDoesNotExists";
+import { CompanyDoesNotExistsError } from "./exceptions/CompanyDoesNotExistsError";
+import { Vehicle } from "../entities/Vehicle";
 
 export default class CompanyService {
-    
-    repository: Repository<Company>;
 
-    constructor(repository: Repository<Company>) {
-        this.repository = repository;
+    constructor(private repository: Repository<Company>, private vehicleRepository?: Repository<Vehicle>) {
     }
     
     async createCompany({ 
@@ -37,16 +35,22 @@ export default class CompanyService {
         return company;
     }
 
-    async getAllCompanies() {
-        return await this.repository.find();
+    async getAllCompanies(): Promise<Company[]> {
+        return await this.repository
+            .createQueryBuilder("company")
+            .leftJoinAndSelect("company.vehicles", "vehicles")
+            .getMany();
     }
 
     async findCompanyById(id: string): Promise<Company> {
-        const company  = await this.repository.findOne(id);
+        // const company  = await this.repository.findOne(id);
+        const company  = await this.repository
+            .createQueryBuilder("company")
+            .where({id})
+            .leftJoinAndSelect("company.vehicles", "vehicles")
+            .getOne();
 
-        if(!company) {
-            throw new CompanyDoesNotExistsError();
-        }
+        if(!company) throw new CompanyDoesNotExistsError();
 
         return company;
     }
@@ -65,7 +69,7 @@ export default class CompanyService {
         phone,
         bikeParkingAmount,
         carParkingAmount
-    }: CreateCompanyRequest): Promise<Company> {
+    }: UpdateCompanyRequest): Promise<Company> {
         const company = await this.repository.findOne(id);
         
         if(!company) {
@@ -82,6 +86,20 @@ export default class CompanyService {
         company.phone = phone ? phone : company.phone;
         company.bikeParkingAmount = bikeParkingAmount ? bikeParkingAmount : company.bikeParkingAmount;
         company.carParkingAmount = carParkingAmount ? carParkingAmount : company.carParkingAmount;
+
+        await this.repository.save(company);
+
+        return company;
+    }
+
+    async addVehicleToCompany(idCompany: string, idVehicle): Promise<Company> {
+        
+        const company = await this.findCompanyById(idCompany);
+        const vehicle = await this.vehicleRepository.findOne({id: idVehicle});
+
+        if(!company) throw new CompanyDoesNotExistsError();
+
+        company.addVehicle(vehicle);
 
         await this.repository.save(company);
 
