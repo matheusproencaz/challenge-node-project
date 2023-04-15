@@ -44,29 +44,39 @@ Criar arquivo docker-compose.yaml para subir postegree + aplicação via docker
 ## Back-end:
  - Typescript
  - NodeJS - V18.10.0
- - Jest
 
 ## Front-end:
  - Typescript
  - Angular
  - Angular Material
- - Jest / Jasmine
 
 ## Outras ferramentas:
  - Docker - 23.0.3
  - Docker Compose - 3.8
  - PostgreSQL - 10.17
 
-# Endpoints API REST:
-  
-- GET /veiculos             Listagem de veículos.
-- GET /veiculos:id          Leitura de um veículo pelo ID.
-- POST /veiculos            Criação de um veículo.
-- PUT /veiculos/:id         Alteração de um veículo.
-- DELETE /veiculos/:id      Deleção de um veículo.
+# Relacionamento
 
-- GET /empresa             Listagem de empresas.
-- GET /empresa/:id         Leitura de um empresa pelo ID.
-- POST /empresa            Criação de um empresa.
-- PUT /empresa/:id         Alteração de um empresa.
-- DELETE /empresa/:id      Deleção de um empresa.
+Não foi pedido para fazer nenhum relacionamento, porém por conta da simplicidade achei coerente utilizar.
+
+Basicamente temos uma empresa que tem vários veículos atribuidos a ela, e o veículo só pode pertencer a uma empresa.
+
+![Relacionamento entre Empresa e Veiculos](./archives/RelacionamentoEmpresaVeiculos.png)
+
+# Endpoints API REST:
+
+|Método|Endpoint                           | Descrição                        |
+|------|-----------------------------------|----------------------------------|
+|GET   |/veiculos                          |Listagem de veículos.             |
+|GET   |/veiculos:id                       |Leitura de um veículo pelo ID.    |
+|GET   |/veiculos/cars                     |Listagem de carros.               |
+|GET   |/veiculos/bikes                    |Listagem de motos.                |   
+|POST  |/veiculos                          |Criação de um veículo.            |
+|PUT   |/veiculos/:id                      |Alteração de um veículo.          |
+|DELETE|/veiculos/:id                      | Deleção de um veículo.           |
+|GET   |/empresa                           |Listagem de empresas.             |
+|GET   |/empresa/:id                       |Leitura de um empresa pelo ID.    |
+|POST  |/empresa                           |Criação de um empresa.            |
+|PUT   |/empresa/:id                       |Alteração de um empresa.          |
+|PUT   |/empresa/:idCompany/:idVehicle     |Adicionando um veículo na empresa.|
+|DELETE|/empresa/:id                       |Deleção de um empresa.            |
