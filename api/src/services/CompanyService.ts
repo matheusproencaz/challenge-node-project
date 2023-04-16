@@ -3,6 +3,8 @@ import { Company } from "../entities/Company";
 import { CompanyAlreadyExistsError } from "./exceptions/CompanyAlreadyExistsError";
 import { CompanyDoesNotExistsError } from "./exceptions/CompanyDoesNotExistsError";
 import { Vehicle } from "../entities/Vehicle";
+import { VehicleDoesNotExistsError } from "./exceptions/VehicleDoesNotExistsError";
+import { VehicleWasNotInCompanyError } from "./exceptions/VehicleWasNotInCompanyError";
 
 export default class CompanyService {
 
@@ -100,6 +102,25 @@ export default class CompanyService {
         if(!company) throw new CompanyDoesNotExistsError();
 
         company.addVehicle(vehicle);
+
+        await this.repository.save(company);
+
+        return company;
+    }
+
+    async removeVehicleToCompany(idCompany: string, idVehicle): Promise<Company> {
+        
+        const company = await this.findCompanyById(idCompany);
+        const vehicle = await this.vehicleRepository.findOne({id: idVehicle});
+
+        if(!company) throw new CompanyDoesNotExistsError();
+        if(!vehicle) throw new VehicleDoesNotExistsError();
+
+        const updatedVehicles = company.vehicles.filter(vehicle => vehicle.id !== idVehicle);
+
+        if(updatedVehicles.length === company.vehicles.length) throw new VehicleWasNotInCompanyError();
+        
+        company.vehicles = updatedVehicles;
 
         await this.repository.save(company);
 

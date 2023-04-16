@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { Vehicle, VehiclesTypes } from "./Vehicle";
 import { VehicleDoesNotExistsError } from "../services/exceptions/VehicleDoesNotExistsError";
 import { FullParkingSlotsError } from "../services/exceptions/FullParkingSlotsError";
+import { VehicleAlreadyInTheCompanyError } from "../services/exceptions/VehicleAlreadyInTheCompanyError";
 
 @Entity("companies")
 export class Company {
@@ -44,9 +45,9 @@ export class Company {
             this.vehicles = Array<Vehicle>();
         }
 
-        if(!this.hasParkingSlots(vehicle)) {
-            throw new FullParkingSlotsError(vehicle.type);
-        }
+        if(!this.hasParkingSlots(vehicle)) throw new FullParkingSlotsError(vehicle.type);
+
+        if(this.vehicles.find(veh => veh.id === vehicle.id)) throw new VehicleAlreadyInTheCompanyError();
 
         this.vehicles.push(vehicle);
     }

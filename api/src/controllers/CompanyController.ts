@@ -97,6 +97,22 @@ export default class CompanyController {
         }
     }
 
+    async removeVehicleToCompany(req: Request, res: Response, next: NextFunction) {
+        try {
+            const repository = getRepository(Company);
+            const vehicleRepository = getRepository(Vehicle);
+            const service = new CompanyService(repository, vehicleRepository);
+
+            const { idCompany, idVehicle } = req.params;
+
+            const result = await service.removeVehicleToCompany(idCompany, idVehicle);
+
+            return res.json(result);
+        } catch (err) {
+            next(err);
+        }
+    }
+
 }
 
 function validateCompanyRequest({
