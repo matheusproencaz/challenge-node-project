@@ -65,21 +65,22 @@ Basicamente temos uma empresa que tem vários veículos atribuidos a ela, e o ve
 
 # Endpoints API REST:
 
-|Método|Endpoint                           | Descrição                        |
-|------|-----------------------------------|----------------------------------|
-|GET   |/veiculos                          |Listagem de veículos.             |
-|GET   |/veiculos:id                       |Leitura de um veículo pelo ID.    |
-|GET   |/veiculos/cars                     |Listagem de carros.               |
-|GET   |/veiculos/bikes                    |Listagem de motos.                |   
-|POST  |/veiculos                          |Criação de um veículo.            |
-|PUT   |/veiculos/:id                      |Alteração de um veículo.          |
-|DELETE|/veiculos/:id                      | Deleção de um veículo.           |
-|GET   |/empresa                           |Listagem de empresas.             |
-|GET   |/empresa/:id                       |Leitura de um empresa pelo ID.    |
-|POST  |/empresa                           |Criação de um empresa.            |
-|PUT   |/empresa/:id                       |Alteração de um empresa.          |
-|PUT   |/empresa/:idCompany/:idVehicle     |Adicionando um veículo na empresa.|
-|DELETE|/empresa/:id                       |Deleção de um empresa.            |
+|Método|Endpoint                              |Descrição                         |
+|------|--------------------------------------|----------------------------------|
+|GET   |/veiculos                             |Listagem de veículos.             |
+|GET   |/veiculos:id                          |Leitura de um veículo pelo ID.    |
+|GET   |/veiculos/cars                        |Listagem de carros.               |
+|GET   |/veiculos/bikes                       |Listagem de motos.                |   
+|POST  |/veiculos                             |Criação de um veículo.            |
+|PUT   |/veiculos/:id                         |Alteração de um veículo.          |
+|DELETE|/veiculos/:id                         |Deleção de um veículo.            |
+|GET   |/empresa                              |Listagem de empresas.             |
+|GET   |/empresa/:id                          |Leitura de um empresa pelo ID.    |
+|POST  |/empresa                              |Criação de um empresa.            |
+|PUT   |/empresa/:id                          |Alteração de um empresa.          |
+|PUT   |/empresa/:idCompany/:idVehicle        |Adicionar um veículo na empresa.  |
+|PUT   |/empresa/remove/:idCompany/:idVehicle |Remover um veículo na empresa.    |
+|DELETE|/empresa/:id                          |Deleção de um empresa.            |
 
 # Como rodar o Projeto?
 
