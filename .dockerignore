@@ -1,3 +1,7 @@
 node_modules
 .git
 .vscode
+yarn-error.log
+yarn.lock
+.env.example
+dist

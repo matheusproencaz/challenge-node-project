@@ -24,6 +24,13 @@ services:
     command: yarn typeorm migration:run
     depends_on:
       - database
+      - frontend
+  frontend:
+    build: ./frontend/.
+    image: frontend
+    container_name: frontend
+    ports:
+      - "4200:80"
 
 volumes:
   pg-data:
