@@ -80,3 +80,22 @@ Basicamente temos uma empresa que tem vários veículos atribuidos a ela, e o ve
 |PUT   |/empresa/:id                       |Alteração de um empresa.          |
 |PUT   |/empresa/:idCompany/:idVehicle     |Adicionando um veículo na empresa.|
 |DELETE|/empresa/:id                       |Deleção de um empresa.            |
+
+# Como rodar o Projeto?
+
+Para testar o projeto e gerar o build, migration e subir o banco de dados, você precisa conferir o .env da api e database.env no root do monorepo, no projeto tem dois arquivos de exemplo.
+
+Você precisa de docker e docker compose instalados na sua maquina, e na raiz após ter os arquivos de environment do projeto você usara o comando:
+
+```bash
+$ sudo docker compose up
+```
+
+O docker irá começar a baixar e gerar as imagens dos projetos e do banco de dados, após a geração das imagens ele irá rodar o comando das migrations para gerar as tabelas e popular elas.
+
+Caso de algum erro na hora de rodar as migrations, caso ela não espere o banco de dados abrir conexão, rode:
+
+```bash
+$ sudo docker compose up
+```
+novamente.
