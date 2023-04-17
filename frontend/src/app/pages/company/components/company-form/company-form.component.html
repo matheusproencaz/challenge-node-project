@@ -1,0 +1,47 @@
+<div class="dialog">
+    <mat-toolbar color="primary">
+        <h1 mat-dialog-title> Criar Empresa </h1>
+        <span class="spacer"></span>
+        <button mat-button mat-dialog-close>&times;</button>
+    </mat-toolbar>
+
+    <form class="form" novalidate #companyForm="ngForm" [formGroup]="companyFb" (ngSubmit)="onSubmit()">
+        <div mat-dialog-content class="form-content">
+            <mat-form-field style="margin-top: 1rem;">
+                <input matInput formControlName='name' placeholder="Nome Empresa" type="text" name="name">
+                <mat-error *ngIf="formErrors.name">{{formErrors.name}}</mat-error>
+            </mat-form-field>
+            
+            <mat-form-field>
+                <input matInput formControlName='cnpj' placeholder="CNPJ" type="text" name="cnpj">
+                <mat-error *ngIf="formErrors.cnpj">{{formErrors.cnpj}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput formControlName='address' placeholder="Endereço" type="text" name="address">
+                <mat-error *ngIf="formErrors.address">{{formErrors.address}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput formControlName='phone' placeholder="Telefone" type="text" name="phone">
+                <mat-error *ngIf="formErrors.phone">{{formErrors.phone}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput formControlName='bikeParkingAmount' placeholder="Número de vagas de moto" type="number" name="bikeParkingAmount">
+                <mat-error *ngIf="formErrors.bikeParkingAmount">{{formErrors.bikeParkingAmount}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput formControlName='carParkingAmount' placeholder="Número de vagas de carro" type="number" name="carParkingAmount">
+                <mat-error *ngIf="formErrors.carParkingAmount">{{formErrors.carParkingAmount}}</mat-error>
+            </mat-form-field>
+        </div>
+        
+        <div mat-dialog-actions>
+            <span class="spacer"></span>
+            <button mat-raised-button type="submit" color="primary" [disabled]="companyFb.invalid">Salvar</button>
+            <button mat-button mat-dialog-close>Cancelar</button>
+        </div>
+    </form>
+</div>

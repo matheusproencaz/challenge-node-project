@@ -1,0 +1,63 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: calc(93vh - 64px);
+    gap: 2rem;
+}
+
+.infos {
+    display: flex;
+    gap: 1rem;
+}
+
+.not-found-container {
+    display: flex;
+    align-items: center;    
+    justify-content: center;
+    height: calc(93vh - 64px);
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    line-height: 1.5em;
+    height: 3em;
+    overflow: hidden;
+}
+
+.subtitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F5F5F5;
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    background-color: #3F51B5;
+    color: #F5F5F5;
+    width: 9rem;
+}
+
+.card-container {
+    display: flex;
+    gap: 2rem;
+}
+
+.icon-card {
+    font-size: 100px;
+    height: 100px;
+    width: 100px;
+}
+
+.parkingSlots{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

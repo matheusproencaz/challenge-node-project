@@ -1,0 +1,45 @@
+<ng-container *ngIf="!notFound">
+    <section class="container">
+
+        <header class="header">
+            <h2>Empresa {{company.name}}</h2>
+        </header>
+
+        <div class="infos">
+            <span> <b> CNPJ: </b> {{company.cnpj}} </span>
+            <span> <b> Telefone: </b> {{company.phone}} </span>
+            <span> <b> Endereço: </b> {{company.address}} </span>
+            <span> <b> Vagas para carros: </b> {{company.carParkingAmount}} </span>
+            <span> <b> Vagas para motos: </b> {{company.bikeParkingAmount}} </span>
+        </div>
+
+        <div class="card-container">
+            <mat-card class="card" *ngFor="let vehicle of company.vehicles">
+                <mat-card-title class="title"> {{vehicle.brand}} </mat-card-title>
+                <mat-card-subtitle class="subtitle"> {{vehicle.plate}} 
+                </mat-card-subtitle>
+                <mat-card-content class="card-content">
+                    <mat-icon class="icon-card" *ngIf="vehicle.type === 'car'">directions_car</mat-icon>
+                    <mat-icon class="icon-card" *ngIf="vehicle.type === 'bike'">motorcycle</mat-icon>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <ng-container *ngIf="companyHasParkingSlots()">
+            <mat-form-field appearance="fill">
+                <mat-select [(value)]="selectedVehicleId">
+                    <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.id">
+                        {{vehicle.brand}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <a mat-raised-button (click)="addVehicle()"> Adicionar Veículo </a>
+        </ng-container> 
+
+    </section>
+</ng-container>
+<ng-container   *ngIf="notFound">
+    <div class="not-found-container">
+        <h2 class="notFound">Não foi encontrado nenhuma Empresa com esse ID!</h2>
+    </div>
+</ng-container>

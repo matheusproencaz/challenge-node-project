@@ -1,0 +1,48 @@
+<div class="dialog">
+    <mat-toolbar color="primary">
+        <h1 mat-dialog-title> Criar Veículo </h1>
+        <span class="spacer"></span>
+        <button mat-button mat-dialog-close>&times;</button>
+    </mat-toolbar>
+
+    <form class="form" novalidate #vehicleForm="ngForm" [formGroup]="vehicleFb" (ngSubmit)="onSubmit()">
+        <div mat-dialog-content class="form-content">
+            <mat-form-field style="margin-top: 1rem;">
+                <input matInput formControlName='brand' placeholder="Marca" type="text" name="brand">
+                <mat-error *ngIf="formErrors.brand">{{formErrors.brand}}</mat-error>
+            </mat-form-field>
+            
+            <mat-form-field>
+                <input matInput formControlName='color' placeholder="Cor" type="text" name="color">
+                <mat-error *ngIf="formErrors.color">{{formErrors.color}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput formControlName='plate' placeholder="Placa" type="text" name="plate">
+                <mat-error *ngIf="formErrors.plate">{{formErrors.plate}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Tipo</mat-label>
+                <mat-select matNativeControl formControlName="type">
+                    <mat-option>Selecione um tipo de Veículo</mat-option>
+                    
+                    <mat-option value="bike">
+                        <mat-icon>motorcycle</mat-icon>
+                    </mat-option>
+                    
+                    <mat-option value="car">
+                        <mat-icon>directions_car</mat-icon>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+        
+        <div mat-dialog-actions>
+            <span class="spacer"></span>
+            <button mat-raised-button type="submit" color="primary" [disabled]="vehicleFb.invalid">Salvar</button>
+            <button mat-button mat-dialog-close>Cancelar</button>
+        </div>
+    </form>
+</div>
