@@ -22,7 +22,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { VehicleFormComponent } from './pages/vehicles/components/vehicle-form/vehicle-form.component';
 import { MatSelectModule } from '@angular/material/select';
-import { CardVehicleComponent } from './pages/company/components/card-vehicle/card-vehicle.component'
 import { CompanyAddVehicleComponent } from './pages/company/components/company-add-vehicle/company-add-vehicle.component';
 import { MatCardModule } from '@angular/material/card';
 
@@ -36,7 +35,6 @@ import { MatCardModule } from '@angular/material/card';
     CompanyFormComponent,
     VehicleFormComponent,
     CompanyAddVehicleComponent,
-    CardVehicleComponent,
   ],
   imports: [
     BrowserModule,

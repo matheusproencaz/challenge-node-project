@@ -18,10 +18,15 @@
                 <mat-card-title class="title"> {{vehicle.brand}} </mat-card-title>
                 <mat-card-subtitle class="subtitle"> {{vehicle.plate}} 
                 </mat-card-subtitle>
-                <mat-card-content class="card-content">
+                <mat-card-content class="flex">
                     <mat-icon class="icon-card" *ngIf="vehicle.type === 'car'">directions_car</mat-icon>
                     <mat-icon class="icon-card" *ngIf="vehicle.type === 'bike'">motorcycle</mat-icon>
                 </mat-card-content>
+                <mat-card-actions class="flex">
+                    <button mat-button (click)="removeVehicle(vehicle.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-card-actions>
             </mat-card>
         </div>
 

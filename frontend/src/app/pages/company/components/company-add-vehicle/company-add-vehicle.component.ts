@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { Company } from 'src/app/model/company.model';
@@ -31,7 +32,8 @@ export class CompanyAddVehicleComponent implements OnInit {
 
   constructor(private service: CompanyService,
     private vehicleService: VehicleService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     
@@ -62,7 +64,16 @@ export class CompanyAddVehicleComponent implements OnInit {
     this.service.addVehicleToCompany(this.company.id, this.selectedVehicleId)
       .subscribe(res => {
         this.company = res;
-      });
+        this.openSnackBar('Veículo adicionado com sucesso!', 'Fechar');
+      }, (err) => this.openSnackBar(err.message, 'Fechar'));
+  }
+
+  removeVehicle(vehicleId: string): void {
+    this.service.removeVehicleToCompany(this.company.id, vehicleId)
+      .subscribe(res => {
+        this.company = res;
+        this.openSnackBar('Veículo removido com sucesso!', 'Fechar');
+      }, (err) => this.openSnackBar(err.message, 'Fechar'));
   }
 
   companyHasParkingSlots(): boolean {
@@ -70,4 +81,7 @@ export class CompanyAddVehicleComponent implements OnInit {
     return this.company.vehicles.length < parkingSlots; 
   }
 
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+  }
 }
