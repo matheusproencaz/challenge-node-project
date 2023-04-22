@@ -5,6 +5,7 @@ import { CompanyDoesNotExistsError } from "./exceptions/CompanyDoesNotExistsErro
 import { Vehicle } from "../entities/Vehicle";
 import { VehicleDoesNotExistsError } from "./exceptions/VehicleDoesNotExistsError";
 import { VehicleWasNotInCompanyError } from "./exceptions/VehicleWasNotInCompanyError";
+import { CompanyHasVehiclesInError } from "./exceptions/CompanyHasVehiclesInError";
 
 export default class CompanyService {
 
@@ -58,9 +59,10 @@ export default class CompanyService {
     }
 
     async deleteCompanyById(id: string): Promise<void> {
-        if(!await this.repository.findOne(id)) {
-            throw new CompanyDoesNotExistsError();
-        }
+        const company = await this.repository.findOne(id);
+        if(!company) throw new CompanyDoesNotExistsError();
+        if(company.vehicles) throw new CompanyHasVehiclesInError();
+
         this.repository.delete(id);
     }
 
