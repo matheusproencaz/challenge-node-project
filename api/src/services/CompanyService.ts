@@ -59,7 +59,7 @@ export default class CompanyService {
     }
 
     async deleteCompanyById(id: string): Promise<void> {
-        const company = await this.repository.findOne(id);
+        const company = await this.findCompanyById(id);
         if(!company) throw new CompanyDoesNotExistsError();
         if(company.vehicles) throw new CompanyHasVehiclesInError();
 
